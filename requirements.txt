@@ -1,0 +1,5 @@
+pandas
+seaborn
+numpy
+-e .
+# This will install the package in editable mode

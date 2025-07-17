@@ -8,6 +8,9 @@ from src.Custom_logger import logging
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformationConfig
+
 @dataclass
 class DataIngestionConfig:
     train_data_path: str = os.path.join('artifacts', 'train.csv')
@@ -33,6 +36,8 @@ class DataIngestion:
 
             train_set.to_csv(self.ingestion_config.train_data_path, index=False, header=True)
             test_set.to_csv(self.ingestion_config.test_data_path, index=False, header=True)
+            df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
+
 
             logging.info("Train and test data saved successfully")
             return (
@@ -43,6 +48,36 @@ class DataIngestion:
                 raise CustomException(e, sys) from e
         
 if __name__ == "__main__":  
-    obj= DataIngestion()
+    obj = DataIngestion()
     train_data, test_data = obj.initiate_data_ingestion()
+    data_transformation = DataTransformation()
+    data_transformation.initiate_data_transformation(train_data, test_data)
 
+'''
+#This script handles the data ingestion process for your machine learning pipeline:
+
+Imports: Loads necessary libraries for file handling, logging, data manipulation, and splitting.
+
+Config Class: DataIngestionConfig defines file paths for raw, train, and test data.
+
+DataIngestion Class:
+
+Reads the student data CSV into a DataFrame.
+
+Saves the raw data to the artifacts folder.
+
+Splits the data into training (80%) and testing (20%) sets.
+
+Saves these splits as separate CSV files in the artifacts folder.
+
+Logs each step for traceability.
+
+Returns the paths to the train and test data files.
+
+Error Handling: If any error occurs, it raises a custom exception for better debugging.
+
+Main Block: Runs the ingestion process when the script is executed directly.
+
+Summary:
+This code automates reading, splitting, and saving your dataset, preparing it for further steps in your ML workflow.
+'''

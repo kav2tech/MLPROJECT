@@ -13,18 +13,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 from src.Exception import CustomException
 from src.Custom_logger import logging
-from src.utils import save_object
-from model_trainer import ModelTrainer
-from sklearn.model_selection import train_test_split   
-from src.utils import evaluate_model 
-
-from src.components.data_transformation import DataTransformation
-from src.components.data_transformation import DataTransformationConfig
-
-from src.components.model_trainer import ModelTrainerConfig
-from src.components.model_trainer import ModelTrainer
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from src.utils import save_object, evaluate_model
 
 @dataclass
 class ModelTrainerConfig:
@@ -56,28 +45,15 @@ class ModelTrainer:
                 "CatBoost": CatBoostRegressor(verbose=0)
             }
 
-            model_report:dict=evaluate_model(X_train=X_train, y_train=y_train,X_test=X_test, y_test=y_test, models=models)
+            # Evaluate all models
+            model_report = evaluate_model(X_train, y_train, X_test, y_test, models)
 
-            for name, model in models.items():
-                logging.info(f"Training model: {name}")
-                model.fit(X_train, y_train)
-                y_pred = model.predict(X_test)
+            # Identify the best model based on R2 Score
+            best_model_name = max(model_report, key=lambda x: model_report[x]["R2 Score"])
+            best_model_score = model_report[best_model_name]["R2 Score"]
+            best_model = models[best_model_name]
 
-                mse = mean_squared_error(y_test, y_pred)
-                r2 = r2_score(y_test, y_pred)
-
-                model_report[name] = {
-                    "Mean Squared Error": round(mse, 4),
-                    "R2 Score": round(r2, 4)
-                }
-
-                logging.info(f"{name} - MSE: {mse:.4f}, R2: {r2:.4f}")
-
-            # Select best model based on R2 score
-            best_model_score= max(model_report, key=lambda x: model_report[x]['R2 Score'])
-            best_model = models[best_model_score]
-
-            logging.info(f"Best model: {best_model_score} with R2 Score: {model_report[best_model_score]['R2 Score']:.4f}")
+            logging.info(f"Best model: {best_model_name} with R2 Score: {best_model_score:.4f}")
 
             if best_model_score < 0.6:
                 raise CustomException("No suitable model found with R2 Score above 0.6", sys)
@@ -91,19 +67,12 @@ class ModelTrainer:
             mse = mean_squared_error(y_test, predicted)
             r2 = r2_score(y_test, predicted)
             logging.info(f"Final model evaluation - MSE: {mse:.4f}, R2: {r2:.4f}")
-            logging.info("Saving the best model to disk")
-            logging.info(f"Best model: {best_model_score} with R2 Score: {model_report[best_model_score]['R2 Score']:.4f}")
-
             logging.info(f"Model saved at: {self.model_trainer_config.trained_model_file_path}")
-            
-            logging.info("Model training completed successfully")
-            logging.info(f"Model report: {model_report}")
 
             return best_model, model_report
 
         except Exception as e:
             logging.error(f"Error during model training: {str(e)}")
             raise CustomException(e, sys)
-
 
 

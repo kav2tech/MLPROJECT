@@ -8,6 +8,7 @@ from src.Exception import CustomException
 from src.Custom_logger import logging
 import dill
 
+
 def save_object(file_path: str, obj: object):
     """
     Saves the given object to the specified file path using dill.
@@ -67,3 +68,22 @@ def evaluate_model(X_train, y_train, X_test, y_test, models: dict, params: dict)
     except Exception as e:  
         logging.error(f"Error evaluating models: {e}")
         raise CustomException(e, sys) from e
+    
+def load_object(file_path: str):
+    """
+    Loads an object from the specified file path using dill.
+    """
+    try:
+        with open(file_path, 'rb') as file:
+            obj = dill.load(file)
+            logging.info(f"Object loaded successfully from {file_path}")
+            return obj
+
+    except Exception as e:
+        logging.error(f"Error loading object: {e}")
+        raise CustomException(e, sys) from e
+        logging.info(f"Object loaded successfully from {file_path}")
+    except FileNotFoundError:
+        logging.error(f"File not found: {file_path}")
+        raise CustomException(f"File not found: {file_path}", sys)
+

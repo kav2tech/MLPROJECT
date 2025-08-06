@@ -1,7 +1,7 @@
 import os
 import sys
-from src.Exception import CustomException
-from src.Custom_logger import logging
+from src.exception import CustomException
+from src.custom_logger import logging
 
 from src.components.data_ingestion import DataIngestion
 from src.components.data_transformation import DataTransformation

@@ -2,43 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome | Student Performance Predictor</title>
+    <title>Welcome - Student Performance Prediction</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f2f6fc;
-        }
-        .container {
-            margin-top: 100px;
-        }
-        .card {
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border: none;
-        }
-        h1 {
-            color: #007bff;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .btn-custom {
-            width: 100%;
-            font-size: 18px;
-            font-weight: 600;
-        }
-    </style>
 </head>
-<body>
-<div class="container">
-    <div class="card">
-        <h1>Student Performance Predictor</h1>
-        <form action="{{ url_for('predict_datapoint') }}">
-            <button type="submit" class="btn btn-primary btn-custom">Start Prediction</button>
-        </form>
-    </div>
+<body class="bg-light text-center">
+
+<div class="container mt-5">
+    <h1 class="text-primary">Welcome to Student Performance Predictor</h1>
+    <p class="mt-3">Click below to start predicting math scores.</p>
+    <a href="/predict" class="btn btn-success btn-lg mt-3">Start Prediction</a>
 </div>
+
 </body>
 </html>
 

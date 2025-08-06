@@ -9,8 +9,8 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
-from src.Exception import CustomException
-from src.Custom_logger import logging
+from src.exception import CustomException
+from src.custom_logger import logging
 from src.utils import save_object
 
 @dataclass

@@ -12,8 +12,8 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import GridSearchCV, cross_val_score
 
-from src.Exception import CustomException
-from src.Custom_logger import logging
+from src.exception import CustomException
+from src.custom_logger import logging
 from src.utils import save_object
 
 @dataclass

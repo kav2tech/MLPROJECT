@@ -122,16 +122,6 @@ http://127.0.0.1:5000/
 
 ---
 
-## ✅ To-Do / Future Enhancements
-
-- Implement advanced models (XGBoost, LightGBM)
-- Improve UI/UX with form validation and error handling
-- Add Docker containerization
-- Integrate with cloud (AWS/GCP) for deployment
-- Add model explainability (SHAP/ELI5)
-
----
-
 ## 📝 License
 
 This project is open source and available under the MIT License.

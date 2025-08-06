@@ -1,0 +1,19 @@
+# Python virtual environment
+venv/
+.env
+
+# Data, logs, notebooks, etc.
+*.ipynb
+data/
+*.csv
+*.pkl
+
+# Everything else you don’t need in the container
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.vscode/
+.git
+tests/
+.ipynb_checkpoints/
